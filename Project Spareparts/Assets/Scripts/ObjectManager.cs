@@ -18,20 +18,33 @@ public class ObjectManager : MonoBehaviour {
     private List<Attachpoint> attachPointList = new List<Attachpoint>();
     public List<Socket> socketList = new List<Socket>();
     public float capsuleColMeshMult;
+    public bool finishedObjectSetup;
+
     void Awake() {
         singleton = this;
     }
     // Use this for initialization
     void Start () {
-        PrepareSpareParts();
-        LinkAttachpointsToSockets();
-        SortSockets();
+        
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
+    public void SetUp() {
+        PrepareSpareParts();
+        LinkAttachpointsToSockets();
+        SortSockets();
+        ChainObjectSetup();
+        finishedObjectSetup = true;
+    }
+    private void ChainObjectSetup() {
+        ChainObject[] chainObjects = model.GetComponentsInChildren<ChainObject>();
+        foreach(ChainObject chainObject in chainObjects) {
+            chainObject.SetValues();
+        }
+    }
     /// <summary>
     /// Detaches all children in model, instatiates new container and parents children
     /// with same index to new container, adds scripts and colliders, hide
@@ -51,10 +64,11 @@ public class ObjectManager : MonoBehaviour {
                 newContainer.AddComponent<ChainObject>();
                 newContainer.transform.parent = tModel;
                 currentIndex = objectIndex;
-                if(currentIndex == 0) {
+                if (currentIndex == 0) {
                     newContainer.GetComponent<ChainObject>().isRoot = true;
                 } else {
                     newContainer.AddComponent<Split>();
+                    newContainer.GetComponent<Split>().SetFields();
                 }
             }
             if(currentIndex == objectIndex) {
@@ -162,7 +176,7 @@ public class ObjectManager : MonoBehaviour {
             part.GetComponent<CapsuleCollider>().height *= capsuleColMeshMult;
             part.GetComponent<CapsuleCollider>().radius *= capsuleColMeshMult;
             if (!part.GetComponent<MeshObject>().chainObject.isRoot) {
-                part.GetComponent<MeshRenderer>().enabled = false;
+                //part.GetComponent<MeshRenderer>().enabled = false;
             }
         }
     }

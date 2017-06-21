@@ -19,14 +19,10 @@ public class ChainObject : MonoBehaviour {
     //public Quaternion startRot;
     public Vector3 endPos;
     //public Quaternion endRot;
-    
-    private void OnEnable() {
-        startPos = transform.position;
-    }
 
     void Start () {
-        
-	}
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -35,4 +31,8 @@ public class ChainObject : MonoBehaviour {
         }
 
 	}
+    public void SetValues() {
+        startPos = transform.position;
+        endPos = startPos + splitVector * 10f;
+    }
 }

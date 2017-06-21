@@ -7,9 +7,9 @@ public class Split : MonoBehaviour {
     public bool currentlySplitting;
 
     private WaitForEndOfFrame waitFrame;
-    private ChainObject chainObj;
+    public ChainObject chainObj;
 
-    private Vector3 dir;
+    public Vector3 dir;
     private Vector3 goalPos;
     private Vector3 startPos;
 
@@ -19,21 +19,39 @@ public class Split : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        waitFrame = new WaitForEndOfFrame();
-        chainObj = GetComponent<ChainObject>();
-        dir = chainObj.splitVector;
+        
     }
-	
 	// Update is called once per frame
 	void Update () {
 		
 	}
+    public void SetFields() {
+        chainObj = GetComponent<ChainObject>();
+        waitFrame = new WaitForEndOfFrame();
+    }
     public void SplitUp(float speed) {
         currentlySplitting = true;
+        ResetValues();
+        StartCoroutine(LerpFromTo(chainObj.startPos, chainObj.endPos, speed));
+    }
+    public void Revert(float speed) {
+        currentlySplitting = true;
+        ResetValues();
+        if (!chainObj.ghost) {
+            chainObj.meshObject.GetComponent<PlaceGhost>().active = true;
+        }
+        StartCoroutine(LerpFromTo(chainObj.endPos, chainObj.startPos, speed));
+    }
+
+   /*public void SplitUp(float speed) {
+        currentlySplitting = true;
+        if(chainObj.startPos == Vector3.zero) {
+            chainObj.startPos = transform.position;
+        }
         startPos = transform.position;
         goalPos = chainObj.endPos;
         if (goalPos == Vector3.zero) {
-            goalPos = transform.position + dir * 10;
+            goalPos = transform.position + chainObj.splitVector * 10;
         }
         ResetValues();
         StartCoroutine(LerpFromTo(startPos, goalPos, speed));
@@ -48,7 +66,7 @@ public class Split : MonoBehaviour {
         ResetValues();
         StartCoroutine(LerpFromTo(startPos, goalPos, speed));
     }
-
+    */
     private IEnumerator LerpFromTo(Vector3 from, Vector3 to,float speed) {
         while (t < 1f) {
             time += Time.deltaTime;
@@ -67,6 +85,6 @@ public class Split : MonoBehaviour {
     private void ResetValues() {
         t = 0;
         time = 0;
-        length = Vector3.Distance(startPos, goalPos);
+        length = Vector3.Distance(chainObj.startPos, chainObj.endPos);
     }
 }

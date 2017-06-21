@@ -6,43 +6,53 @@ public class SplitManager : MonoBehaviour {
 
     public static SplitManager singleton;
     public float speedOnStart;
-    public bool splitting;
-    private WaitForEndOfFrame waitAFrame;
+    public bool startSplitting;
+    public bool startReverting;
+    public bool finishedStartSplit;
     private void Awake() {
         singleton = this;
     }
 
     // Use this for initialization
     void Start () {
-        waitAFrame = new WaitForEndOfFrame();
+
     }
-	
+	public void SetUp() {
+        StartCoroutine(StartSetupCoroutine());
+    }
+    private IEnumerator StartSetupCoroutine() {
+        StartCoroutine(SplitOnStart());
+        yield return new WaitUntil(() => !startSplitting);
+        StartCoroutine(RevertOnStart());
+        yield return new WaitUntil(() => !startReverting);
+        finishedStartSplit = true;
+    }
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.LeftControl) && !splitting) {
+        if (Input.GetKeyDown(KeyCode.LeftControl) && !startSplitting) {
             StartCoroutine(SplitOnStart());
         }
-        if (Input.GetKeyDown(KeyCode.LeftAlt) && !splitting) {
+        if (Input.GetKeyDown(KeyCode.LeftAlt) && !startSplitting) {
             StartCoroutine(RevertOnStart());
         }
 	}
     private IEnumerator SplitOnStart() {
-        for(int i = ObjectManager.singleton.socketList.Count -1; i >= 0; i--) {
-            splitting = true;
+        startSplitting = true;
+        for (int i = ObjectManager.singleton.socketList.Count -1; i >= 0; i--) {
             GameObject obj = ObjectManager.singleton.socketList[i].attachedAttachPoint.transform.parent.gameObject;
             obj.GetComponent<Split>().SplitUp(speedOnStart);
             yield return new WaitUntil(() => !obj.GetComponent<Split>().currentlySplitting);
         }
-        splitting = false;
+        startSplitting = false;
     }
     private IEnumerator RevertOnStart() {
+        startReverting = true;
         for (int i = 0; i < ObjectManager.singleton.socketList.Count; i++) {
-            splitting = true;
             GameObject obj = ObjectManager.singleton.socketList[i].attachedAttachPoint.transform.parent.gameObject;
             obj.GetComponent<ChainObject>().meshObject.GetComponent<MeshRenderer>().enabled = true;
             obj.GetComponent<Split>().Revert(speedOnStart);
             yield return new WaitUntil(() => !obj.GetComponent<Split>().currentlySplitting);
         }
-        splitting = false;
+        startReverting = false;
     }
 }
