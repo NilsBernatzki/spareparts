@@ -6,6 +6,7 @@ public class SplitManager : MonoBehaviour {
 
     public static SplitManager singleton;
     public float speedOnStart;
+    public float speed;
     public bool startSplitting;
     public bool startReverting;
     public bool finishedStartSplit;

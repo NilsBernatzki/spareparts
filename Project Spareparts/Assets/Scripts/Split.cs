@@ -8,10 +8,10 @@ public class Split : MonoBehaviour {
 
     private WaitForEndOfFrame waitFrame;
     public ChainObject chainObj;
+    private Rigidbody rig;
 
-    public Vector3 dir;
     private Vector3 goalPos;
-    private Vector3 startPos;
+    private float splitSpeed;
 
     private float t;
     private float time;
@@ -23,50 +23,38 @@ public class Split : MonoBehaviour {
     }
 	// Update is called once per frame
 	void Update () {
-		
+        if (GameManager.singleton.finishedSetup) {
+            Move();
+        }
 	}
     public void SetFields() {
         chainObj = GetComponent<ChainObject>();
         waitFrame = new WaitForEndOfFrame();
+        rig = GetComponent<Rigidbody>();
+        splitSpeed = SplitManager.singleton.speed;
     }
     public void SplitUp(float speed) {
-        currentlySplitting = true;
-        ResetValues();
-        StartCoroutine(LerpFromTo(chainObj.startPos, chainObj.endPos, speed));
+        if (GameManager.singleton.finishedSetup) {
+            goalPos = chainObj.endPos;
+        } else {
+            currentlySplitting = true;
+            ResetValues();
+            StartCoroutine(LerpFromTo(chainObj.startPos, chainObj.endPos, speed));
+        }
     }
+        
     public void Revert(float speed) {
-        currentlySplitting = true;
-        ResetValues();
-        if (!chainObj.ghost) {
-            chainObj.meshObject.GetComponent<PlaceGhost>().active = true;
+        if (GameManager.singleton.finishedSetup) {
+            goalPos = chainObj.startPos;
+        } else {
+            currentlySplitting = true;
+            ResetValues();
+            if (!chainObj.ghost) {
+                chainObj.meshObject.GetComponent<PlaceGhost>().active = true;
+            }
+            StartCoroutine(LerpFromTo(chainObj.endPos, chainObj.startPos, speed));
         }
-        StartCoroutine(LerpFromTo(chainObj.endPos, chainObj.startPos, speed));
     }
-
-   /*public void SplitUp(float speed) {
-        currentlySplitting = true;
-        if(chainObj.startPos == Vector3.zero) {
-            chainObj.startPos = transform.position;
-        }
-        startPos = transform.position;
-        goalPos = chainObj.endPos;
-        if (goalPos == Vector3.zero) {
-            goalPos = transform.position + chainObj.splitVector * 10;
-        }
-        ResetValues();
-        StartCoroutine(LerpFromTo(startPos, goalPos, speed));
-    }
-    public void Revert(float speed) {
-        currentlySplitting = true;
-        if (chainObj.endPos == Vector3.zero) {
-            chainObj.meshObject.GetComponent<PlaceGhost>().active = true;
-        }
-        goalPos = chainObj.startPos;
-        startPos = transform.position;
-        ResetValues();
-        StartCoroutine(LerpFromTo(startPos, goalPos, speed));
-    }
-    */
     private IEnumerator LerpFromTo(Vector3 from, Vector3 to,float speed) {
         while (t < 1f) {
             time += Time.deltaTime;
@@ -86,5 +74,10 @@ public class Split : MonoBehaviour {
         t = 0;
         time = 0;
         length = Vector3.Distance(chainObj.startPos, chainObj.endPos);
+    }
+    private void Move() {
+        if (goalPos == Vector3.zero) return;
+        Vector3 dir = goalPos - transform.position;
+        rig.velocity = dir * splitSpeed;
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
     public static GameManager singleton;
     public bool startedTool;
+    public bool finishedSetup;
     void Awake() {
         singleton = this;
     }
@@ -29,6 +30,6 @@ public class GameManager : MonoBehaviour {
         yield return new WaitUntil(() => ObjectManager.singleton.finishedObjectSetup);
         SplitManager.singleton.SetUp();
         yield return new WaitUntil(() => SplitManager.singleton.finishedStartSplit);
-        Debug.Log("Setup finished");
+        finishedSetup = true;
     }
 }

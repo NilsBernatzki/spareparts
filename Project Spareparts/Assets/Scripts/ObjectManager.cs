@@ -62,6 +62,8 @@ public class ObjectManager : MonoBehaviour {
                 newContainer = new GameObject(GetName(part.name));
                 newContainer.transform.position = part.transform.position;
                 newContainer.AddComponent<ChainObject>();
+                newContainer.AddComponent<Rigidbody>();
+                newContainer.GetComponent<Rigidbody>().useGravity = false;
                 newContainer.transform.parent = tModel;
                 currentIndex = objectIndex;
                 if (currentIndex == 0) {
@@ -169,8 +171,6 @@ public class ObjectManager : MonoBehaviour {
             part.GetComponent<BoxCollider>().isTrigger = true;
             part.GetComponent<MeshRenderer>().enabled = false;
         } else {
-            part.AddComponent<Rigidbody>();
-            part.GetComponent<Rigidbody>().useGravity = false;
             part.AddComponent<CapsuleCollider>();
             part.GetComponent<CapsuleCollider>().isTrigger = true;
             part.GetComponent<CapsuleCollider>().height *= capsuleColMeshMult;
