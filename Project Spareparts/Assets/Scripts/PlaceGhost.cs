@@ -26,7 +26,6 @@ public class PlaceGhost : MonoBehaviour {
         if (other.gameObject.layer == LayerMask.NameToLayer("Mesh")) {
             if (other.gameObject.GetComponent<MeshObject>().chainObject.mySockets.Contains(chainObj.linkedSocket)) {
                 active = false;
-                print(other.gameObject.name);
                 SpawnGhost();
                 SavePosition();
             }    

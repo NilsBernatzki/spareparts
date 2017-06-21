@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Split : MonoBehaviour {
 
+    public bool currentlySplitting;
+
     private WaitForEndOfFrame waitFrame;
     private ChainObject chainObj;
 
@@ -27,6 +29,7 @@ public class Split : MonoBehaviour {
 		
 	}
     public void SplitUp(float speed) {
+        currentlySplitting = true;
         startPos = transform.position;
         goalPos = chainObj.endPos;
         if (goalPos == Vector3.zero) {
@@ -36,17 +39,16 @@ public class Split : MonoBehaviour {
         StartCoroutine(LerpFromTo(startPos, goalPos, speed));
     }
     public void Revert(float speed) {
-
-        if(chainObj.endPos == Vector3.zero) {
+        currentlySplitting = true;
+        if (chainObj.endPos == Vector3.zero) {
             chainObj.meshObject.GetComponent<PlaceGhost>().active = true;
         }
-
         goalPos = chainObj.startPos;
         startPos = transform.position;
-
         ResetValues();
         StartCoroutine(LerpFromTo(startPos, goalPos, speed));
     }
+
     private IEnumerator LerpFromTo(Vector3 from, Vector3 to,float speed) {
         while (t < 1f) {
             time += Time.deltaTime;
@@ -57,7 +59,7 @@ public class Split : MonoBehaviour {
             SetPosition(Vector3.Lerp(from, to, t));
             yield return waitFrame;
         }
-        SplitManager.singleton.splitting = false;
+        currentlySplitting = false;
     }
     private void SetPosition(Vector3 newPos) {
         transform.position = newPos;

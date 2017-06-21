@@ -34,7 +34,7 @@ public class ObjectManager : MonoBehaviour {
 	}
     /// <summary>
     /// Detaches all children in model, instatiates new container and parents children
-    /// with same index to new container, adds scripts and colliders
+    /// with same index to new container, adds scripts and colliders, hide
     /// </summary>
     public void PrepareSpareParts() {
         Transform tModel = model.transform;
@@ -61,6 +61,7 @@ public class ObjectManager : MonoBehaviour {
                 part.transform.parent = newContainer.transform;
                 AddScripts(part);
                 AddColliderAndRig(part);
+                
             }
         }
     }
@@ -160,6 +161,9 @@ public class ObjectManager : MonoBehaviour {
             part.GetComponent<CapsuleCollider>().isTrigger = true;
             part.GetComponent<CapsuleCollider>().height *= capsuleColMeshMult;
             part.GetComponent<CapsuleCollider>().radius *= capsuleColMeshMult;
+            if (!part.GetComponent<MeshObject>().chainObject.isRoot) {
+                part.GetComponent<MeshRenderer>().enabled = false;
+            }
         }
     }
     /// <summary>
