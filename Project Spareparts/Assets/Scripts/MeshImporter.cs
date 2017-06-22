@@ -15,7 +15,7 @@ public class MeshImporter : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        LoadModelsFromResources();
+        
 	}
 	
 	// Update is called once per frame
