@@ -1,17 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
+
 using System.IO;
 
 public class MeshImporter : MonoBehaviour {
+
     private GameObject tempModel;
-    private string newFolderPath = "/LoadedModels/";
-    private string resourcesName = "/Resources/";
-    private string modelFolderName = "/Models/";
-    private char[] delimiters = new char[] { '/', '.' };
-    private string fileFormat = ".fbx";
     public bool finishedLoadingModels;
+    public string subfolderModelsName;
+    public List<GameObject> loadedModels = new List<GameObject>();
 
     // Use this for initialization
     void Start () {
@@ -23,31 +25,29 @@ public class MeshImporter : MonoBehaviour {
 		
 	}
     public void LoadModelsFromResources() {
-        string resourcesPath = Application.dataPath + resourcesName;
-        string[] allFilePathsInResources = Directory.GetFiles(resourcesPath);
-        foreach(string filePath in allFilePathsInResources) {
-            if (filePath.EndsWith(fileFormat)) {
-                string fileName = GetFileName(filePath);
-                ObjectManager.singleton.loadedModels.Add((GameObject)Resources.Load(fileName) as GameObject);
-            }
+        Object[] meshes = Resources.LoadAll(subfolderModelsName,typeof(GameObject)) as Object[];
+        foreach(GameObject mesh in meshes) {
+            loadedModels.Add((GameObject)Resources.Load(subfolderModelsName + "/" + mesh.name) as GameObject);
         }
         finishedLoadingModels = true;
-        tempModel = Instantiate((GameObject)ObjectManager.singleton.loadedModels[0]);
+        tempModel = Instantiate(loadedModels[0]);
         ObjectManager.singleton.model = tempModel;
     }
     private string GetFileName(string filePath) {
+        char[] delimiters = new char[] { '/', '.' };
         string[] filePathParts = filePath.Split(delimiters);
         string fileName = filePathParts.GetValue(filePathParts.Length - 2).ToString();
         return fileName;
     }
+#if UNITY_EDITOR
+    //Non Build Code
     public void LoadInModels() {
+        string newFolderPath = "/LoadedModels/";
         string path = EditorUtility.OpenFilePanel("choose file", Application.dataPath, "fbx");
         if (path == "") return;
         System.IO.DirectoryInfo dirInfo = System.IO.Directory.GetParent(path);
         DirectoryCopy(dirInfo.FullName, Application.dataPath + newFolderPath, false);
         AssetDatabase.Refresh();
-
-        //tempModel = Instantiate((GameObject)AssetDatabase.LoadAssetAtPath("Assets" + newFolderPath + "/testModel1.fbx", typeof(GameObject)));
         tempModel = Instantiate((GameObject)Resources.Load("Assets" + newFolderPath + "/testModel1.fbx", typeof(GameObject)));
         ObjectManager.singleton.model = tempModel;
     }
@@ -83,4 +83,5 @@ public class MeshImporter : MonoBehaviour {
             }
         }
     }
+#endif
 }

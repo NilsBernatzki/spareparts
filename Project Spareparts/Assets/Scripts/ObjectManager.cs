@@ -12,7 +12,6 @@ public class SocketSorter : IComparer<Socket> {
 public class ObjectManager : MonoBehaviour {
     public static ObjectManager singleton;
 
-    public List<GameObject> loadedModels = new List<GameObject>();
     public GameObject model;
     public LayerMask socketLayer;
     private List<GameObject> sparepartList = new List<GameObject>();
