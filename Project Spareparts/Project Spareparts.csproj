@@ -81,7 +81,7 @@
     <Compile Include="Assets\Scripts\Attachpoint.cs" />
     <Compile Include="Assets\Scripts\ChainObject.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
-    <Compile Include="Assets\Scripts\ImportMeshes.cs" />
+    <Compile Include="Assets\Scripts\MeshImporter.cs" />
     <Compile Include="Assets\Scripts\MeshObject.cs" />
     <Compile Include="Assets\Scripts\ObjectManager.cs" />
     <Compile Include="Assets\Scripts\PlaceGhost.cs" />

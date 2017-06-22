@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour {
     void Update() {
         if (Input.GetKeyDown(KeyCode.Space)) {
             if (!ObjectManager.singleton.model) {
-                GetComponent<ImportMeshes>().LoadInModels();
+                //GetComponent<MeshImporter>().LoadInModels();
             }
         }
         if (Input.GetKeyDown(KeyCode.LeftControl) && !startedTool) {
