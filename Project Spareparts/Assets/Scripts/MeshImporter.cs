@@ -33,14 +33,15 @@ public class MeshImporter : MonoBehaviour {
         tempModel = Instantiate(loadedModels[0]);
         ObjectManager.singleton.model = tempModel;
     }
+#if UNITY_EDITOR
+    //Non Build Code
     private string GetFileName(string filePath) {
         char[] delimiters = new char[] { '/', '.' };
         string[] filePathParts = filePath.Split(delimiters);
         string fileName = filePathParts.GetValue(filePathParts.Length - 2).ToString();
         return fileName;
     }
-#if UNITY_EDITOR
-    //Non Build Code
+
     public void LoadInModels() {
         string newFolderPath = "/LoadedModels/";
         string path = EditorUtility.OpenFilePanel("choose file", Application.dataPath, "fbx");
