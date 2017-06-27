@@ -1,0 +1,221 @@
+fileFormatVersion: 2
+guid: 8a4b9c5d8ec8ae649b49a18d2dbf456d
+timeCreated: 1498583807
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: 0_1_s_0_root
+    100002: 0_2_m_root
+    100004: 1_0_ap_testobject
+    100006: 1_1_s_1_testobject
+    100008: 1_1_s_2_testobject.001
+    100010: 1_1_s_3_testobject.002
+    100012: 1_2_m_mesh
+    100014: 2_0_ap_testTube
+    100016: 2_2_m_mesh
+    100018: 3_0_ap_testTube2
+    100020: 3_1_s_testTube2.001
+    100022: 3_2_m_mesh
+    100024: 4_0_ap_endpeace
+    100026: 4_2_m_mesh
+    100028: 5_0_ap_Gear
+    100030: 5_2_m_Gear
+    100032: Camera
+    100034: //RootNode
+    100036: 3_1_s_testTube2
+    100038: 5_2_m_mesh
+    100040: 4_0_ap_Gear
+    100042: 5_0_ap_endpeace
+    100044: 5_2_m_mesh.001
+    100046: 3_1_s_4_testTube2
+    100048: 1_1_s_4_testobject.002
+    100050: 3_1_s_3_testTube2
+    100052: 1_1_s_5_testobject.002
+    100054: 4_1_s_4_Gear
+    100056: 6_0_ap_Gear.001
+    100058: 6_2_m_mesh.001
+    400000: 0_1_s_0_root
+    400002: 0_2_m_root
+    400004: 1_0_ap_testobject
+    400006: 1_1_s_1_testobject
+    400008: 1_1_s_2_testobject.001
+    400010: 1_1_s_3_testobject.002
+    400012: 1_2_m_mesh
+    400014: 2_0_ap_testTube
+    400016: 2_2_m_mesh
+    400018: 3_0_ap_testTube2
+    400020: 3_1_s_testTube2.001
+    400022: 3_2_m_mesh
+    400024: 4_0_ap_endpeace
+    400026: 4_2_m_mesh
+    400028: 5_0_ap_Gear
+    400030: 5_2_m_Gear
+    400032: Camera
+    400034: //RootNode
+    400036: 3_1_s_testTube2
+    400038: 5_2_m_mesh
+    400040: 4_0_ap_Gear
+    400042: 5_0_ap_endpeace
+    400044: 5_2_m_mesh.001
+    400046: 3_1_s_4_testTube2
+    400048: 1_1_s_4_testobject.002
+    400050: 3_1_s_3_testTube2
+    400052: 1_1_s_5_testobject.002
+    400054: 4_1_s_4_Gear
+    400056: 6_0_ap_Gear.001
+    400058: 6_2_m_mesh.001
+    2300000: 0_1_s_0_root
+    2300002: 0_2_m_root
+    2300004: 1_0_ap_testobject
+    2300006: 1_1_s_1_testobject
+    2300008: 1_1_s_2_testobject.001
+    2300010: 1_1_s_3_testobject.002
+    2300012: 1_2_m_mesh
+    2300014: 2_0_ap_testTube
+    2300016: 2_2_m_mesh
+    2300018: 3_0_ap_testTube2
+    2300020: 3_1_s_testTube2.001
+    2300022: 3_2_m_mesh
+    2300024: 4_0_ap_endpeace
+    2300026: 4_2_m_mesh
+    2300028: 5_0_ap_Gear
+    2300030: 5_2_m_Gear
+    2300032: 3_1_s_testTube2
+    2300034: 5_2_m_mesh
+    2300036: 4_0_ap_Gear
+    2300038: 5_0_ap_endpeace
+    2300040: 5_2_m_mesh.001
+    2300042: 3_1_s_4_testTube2
+    2300044: 1_1_s_4_testobject.002
+    2300046: 3_1_s_3_testTube2
+    2300048: 1_1_s_5_testobject.002
+    2300050: 4_1_s_4_Gear
+    2300052: 6_0_ap_Gear.001
+    2300054: 6_2_m_mesh.001
+    3300000: 0_1_s_0_root
+    3300002: 0_2_m_root
+    3300004: 1_0_ap_testobject
+    3300006: 1_1_s_1_testobject
+    3300008: 1_1_s_2_testobject.001
+    3300010: 1_1_s_3_testobject.002
+    3300012: 1_2_m_mesh
+    3300014: 2_0_ap_testTube
+    3300016: 2_2_m_mesh
+    3300018: 3_0_ap_testTube2
+    3300020: 3_1_s_testTube2.001
+    3300022: 3_2_m_mesh
+    3300024: 4_0_ap_endpeace
+    3300026: 4_2_m_mesh
+    3300028: 5_0_ap_Gear
+    3300030: 5_2_m_Gear
+    3300032: 3_1_s_testTube2
+    3300034: 5_2_m_mesh
+    3300036: 4_0_ap_Gear
+    3300038: 5_0_ap_endpeace
+    3300040: 5_2_m_mesh.001
+    3300042: 3_1_s_4_testTube2
+    3300044: 1_1_s_4_testobject.002
+    3300046: 3_1_s_3_testTube2
+    3300048: 1_1_s_5_testobject.002
+    3300050: 4_1_s_4_Gear
+    3300052: 6_0_ap_Gear.001
+    3300054: 6_2_m_mesh.001
+    4300000: 5_0_ap_Gear
+    4300002: 5_2_m_Gear
+    4300004: 3_1_s_testTube2.001
+    4300006: 4_0_ap_endpeace
+    4300008: 1_1_s_3_testobject.002
+    4300010: 4_2_m_mesh
+    4300012: 3_2_m_mesh
+    4300014: 3_0_ap_testTube2
+    4300016: 1_1_s_2_testobject.001
+    4300018: 2_0_ap_testTube
+    4300020: 2_2_m_mesh
+    4300022: 0_1_s_0_root
+    4300024: 0_2_m_root
+    4300026: 1_1_s_1_testobject
+    4300028: 1_0_ap_testobject
+    4300030: 1_2_m_mesh
+    4300032: 5_2_m_mesh
+    4300034: 3_1_s_testTube2
+    4300036: 4_0_ap_Gear
+    4300038: 5_0_ap_endpeace
+    4300040: 5_2_m_mesh.001
+    4300042: 3_1_s_4_testTube2
+    4300044: 3_1_s_3_testTube2
+    4300046: 1_1_s_4_testobject.002
+    4300048: 4_1_s_4_Gear
+    4300050: 6_2_m_mesh.001
+    4300052: 6_0_ap_Gear.001
+    4300054: 1_1_s_5_testobject.002
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

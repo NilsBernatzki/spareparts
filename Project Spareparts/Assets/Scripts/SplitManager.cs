@@ -13,6 +13,7 @@ public class SplitManager : MonoBehaviour {
     public bool finishedStartSplit;
     private bool reverting;
     private bool splitting;
+    public bool splitted;
 
     private void Awake() {
         singleton = this;
@@ -53,6 +54,7 @@ public class SplitManager : MonoBehaviour {
             yield return new WaitUntil(()=> !obj.GetComponent<Split>().currentlySplitting);
         }
         splitting = false;
+        splitted = true;
     }
     private IEnumerator Revert() {
         reverting = true;
@@ -63,6 +65,7 @@ public class SplitManager : MonoBehaviour {
             yield return new WaitUntil(() => !obj.GetComponent<Split>().currentlySplitting);
         }
         reverting = false;
+        splitted = false;
     }
     private IEnumerator SplitOnStart() {
         startSplitting = true;

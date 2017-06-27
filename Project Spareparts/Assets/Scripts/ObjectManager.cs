@@ -17,7 +17,8 @@ public class ObjectManager : MonoBehaviour {
     private List<GameObject> sparepartList = new List<GameObject>();
     private List<Attachpoint> attachPointList = new List<Attachpoint>();
     public List<Socket> socketList = new List<Socket>();
-    public float capsuleColMeshMult;
+    public float capsuleColMeshAdd;
+    public float minCollHeigth;
     public bool finishedObjectSetup;
 
     void Awake() {
@@ -173,8 +174,11 @@ public class ObjectManager : MonoBehaviour {
         } else {
             part.AddComponent<CapsuleCollider>();
             part.GetComponent<CapsuleCollider>().isTrigger = true;
-            part.GetComponent<CapsuleCollider>().height *= capsuleColMeshMult;
-            part.GetComponent<CapsuleCollider>().radius *= capsuleColMeshMult;
+            part.GetComponent<CapsuleCollider>().height *= capsuleColMeshAdd;
+            if(part.GetComponent<CapsuleCollider>().height < minCollHeigth) {
+                part.GetComponent<CapsuleCollider>().height = minCollHeigth;
+            }
+            part.GetComponent<CapsuleCollider>().radius *= capsuleColMeshAdd;
             if (!part.GetComponent<MeshObject>().chainObject.isRoot) {
                 //part.GetComponent<MeshRenderer>().enabled = false;
             }

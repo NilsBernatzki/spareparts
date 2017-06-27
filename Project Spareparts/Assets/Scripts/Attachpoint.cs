@@ -6,7 +6,7 @@ public class Attachpoint : MonoBehaviour {
 
     [HideInInspector]
     public bool debugLink;
-    private ChainObject chainObj;
+    public ChainObject chainObj;
 	// Use this for initialization
 	void Start () {
         

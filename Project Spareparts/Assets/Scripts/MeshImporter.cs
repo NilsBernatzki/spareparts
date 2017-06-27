@@ -30,7 +30,7 @@ public class MeshImporter : MonoBehaviour {
             loadedModels.Add((GameObject)Resources.Load(subfolderModelsName + "/" + mesh.name) as GameObject);
         }
         finishedLoadingModels = true;
-        tempModel = Instantiate(loadedModels[0]);
+        tempModel = Instantiate(loadedModels[loadedModels.Count-1]);
         ObjectManager.singleton.model = tempModel;
     }
 #if UNITY_EDITOR

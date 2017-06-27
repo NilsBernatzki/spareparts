@@ -20,8 +20,11 @@ public class ChainObject : MonoBehaviour {
     public Vector3 endPos;
     //public Quaternion endRot;
 
-    void Start () {
+    [Header("Selection")]
+    public bool isSelected;
 
+    void Start () {
+        GameManager.singleton.GetComponent<SelectObject>().selectedChainObjectEvent += OnSelection;
     }
 	
 	// Update is called once per frame
@@ -34,5 +37,18 @@ public class ChainObject : MonoBehaviour {
     public void SetValues() {
         startPos = transform.position;
         endPos = startPos + splitVector * 10f;
+    }
+    private void OnSelection(ChainObject chainObject) {
+        if (chainObject == this) {
+            if (!isSelected) {
+                isSelected = true;
+                Debug.Log("selected: " + this.gameObject.name, this);
+            }
+        } else {
+            if (isSelected) {
+                isSelected = false;
+                Debug.Log("deselected: " + this.gameObject.name, this);
+            }
+        }
     }
 }
