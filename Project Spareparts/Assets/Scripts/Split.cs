@@ -38,7 +38,6 @@ public class Split : MonoBehaviour {
         if (GameManager.singleton.finishedSetup) {
             goalPos = chainObj.endPos;
         } else {
-            //currentlySplitting = true;
             ResetValues();
             StartCoroutine(LerpFromTo(chainObj.startPos, chainObj.endPos, speed));
         }
@@ -49,7 +48,6 @@ public class Split : MonoBehaviour {
         if (GameManager.singleton.finishedSetup) {
             goalPos = chainObj.startPos;
         } else {
-            //currentlySplitting = true;
             ResetValues();
             if (!chainObj.ghost) {
                 chainObj.meshObject.GetComponent<PlaceGhost>().active = true;
@@ -79,6 +77,7 @@ public class Split : MonoBehaviour {
     }
     private void Move() {
         if (goalPos == Vector3.zero) return;
+        splitSpeed = SplitManager.singleton.speed;
         Vector3 dir = goalPos - transform.position;
         rig.velocity = dir * splitSpeed;
         if (currentlySplitting) {

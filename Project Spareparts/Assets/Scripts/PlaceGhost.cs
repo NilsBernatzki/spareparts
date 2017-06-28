@@ -5,12 +5,10 @@ using UnityEngine;
 public class PlaceGhost : MonoBehaviour {
 
     public bool active;
+    public float distToNeighbor = 2.5f;
     private MeshObject meshObject;
     private ChainObject chainObj;
 
-    private void OnEnable() {
-        
-    }
     // Use this for initialization
     void Start () {
         meshObject = GetComponent<MeshObject>();
@@ -26,8 +24,7 @@ public class PlaceGhost : MonoBehaviour {
         if (other.gameObject.layer == LayerMask.NameToLayer("Mesh")) {
             if (other.gameObject.GetComponent<MeshObject>().chainObject.mySockets.Contains(chainObj.linkedSocket)) {
                 active = false;
-                SpawnGhost();
-                SavePosition();
+                StartCoroutine(ShrinkBufferCoroutine(other.transform.position));               
             }    
         }
     }
@@ -41,5 +38,12 @@ public class PlaceGhost : MonoBehaviour {
     }
     private void SavePosition() {
         chainObj.endPos = chainObj.ghost.transform.position;
+    }
+    private IEnumerator ShrinkBufferCoroutine(Vector3 colliderPos) {
+        while (Vector3.Distance(colliderPos,transform.position) > distToNeighbor) {
+            yield return new WaitForEndOfFrame();
+        }
+        SpawnGhost();
+        SavePosition();
     }
 }

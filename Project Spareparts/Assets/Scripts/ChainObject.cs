@@ -25,6 +25,7 @@ public class ChainObject : MonoBehaviour {
 
     void Start () {
         GameManager.singleton.GetComponent<SelectObject>().selectedChainObjectEvent += OnSelection;
+        GameManager.singleton.GetComponent<SelectObject>().deselectChainObjectEvent += OnDeselection;
     }
 	
 	// Update is called once per frame
@@ -37,6 +38,15 @@ public class ChainObject : MonoBehaviour {
     public void SetValues() {
         startPos = transform.position;
         endPos = startPos + splitVector * 10f;
+    }
+    private void OnDeselection(ChainObject chainObject) {
+        if(chainObject == this) {
+            if (isSelected) {
+                isSelected = false;
+            } else {
+                Debug.Log("deselect a deselected Object? :/ ");
+            }
+        }
     }
     private void OnSelection(ChainObject chainObject) {
         if (chainObject == this) {

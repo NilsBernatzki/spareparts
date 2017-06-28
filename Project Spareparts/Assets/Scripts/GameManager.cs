@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour {
                 GetComponent<MeshImporter>().LoadModelsFromResources();
             }
         }
+        if (ObjectManager.singleton.model == null) return;
         if (Input.GetKeyDown(KeyCode.LeftControl) && !startedTool) {
             startedTool = true;
             StartTool();

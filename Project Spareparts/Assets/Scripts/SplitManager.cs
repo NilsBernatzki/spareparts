@@ -8,13 +8,18 @@ public class SplitManager : MonoBehaviour {
     public float speedSplitOnStart;
     public float speedRevertOnStart;
     public float speed;
+    public float oldSpeed;
+    public float maxSpeed;
+    public float minSpeed;
+    public float speedAddSubAmount;
+    public bool paused;
     public bool startSplitting;
     public bool startReverting;
     public bool finishedStartSplit;
     private bool reverting;
     private bool splitting;
     public bool splitted;
-
+    
     private void Awake() {
         singleton = this;
     }
@@ -31,10 +36,12 @@ public class SplitManager : MonoBehaviour {
         yield return new WaitUntil(() => !startSplitting);
         StartCoroutine(RevertOnStart());
         yield return new WaitUntil(() => !startReverting);
+        oldSpeed = speed;
         finishedStartSplit = true;
     }
 	// Update is called once per frame
 	void Update () {
+        if (ObjectManager.singleton.model == null) return;
         if (Input.GetKeyDown(KeyCode.LeftControl) && finishedStartSplit) {
             if(!splitting && !reverting) {
                 StartCoroutine(Split());
@@ -45,13 +52,56 @@ public class SplitManager : MonoBehaviour {
                 StartCoroutine(Revert());
             }
         }
-	}
+        if (!finishedStartSplit) return;
+        if (Input.GetKeyDown(KeyCode.P)) {
+            paused = !paused;
+            StartCoroutine(LerpSpeed());
+        }
+        if (Input.GetKeyDown(KeyCode.UpArrow)) {
+            oldSpeed += speedAddSubAmount;
+            if (oldSpeed > maxSpeed) {
+                oldSpeed = maxSpeed;
+            }
+            if (paused) return;
+            speed += speedAddSubAmount;
+            if(speed > maxSpeed) {
+                speed = maxSpeed;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.DownArrow)) {
+            oldSpeed -= speedAddSubAmount;
+            if (oldSpeed < minSpeed) {
+                oldSpeed = minSpeed;
+            }
+            if (paused) return;
+            speed -= speedAddSubAmount;
+            if (speed < minSpeed) {
+                speed = minSpeed;
+            }
+        }
+    }
+    private IEnumerator LerpSpeed() {
+        float t = 0;
+        if (paused) {
+            while(t <= 1) {
+                t += Time.deltaTime * 2f;
+                speed = Mathf.Lerp(speed, 0f, t);
+                yield return new WaitForEndOfFrame();
+            }
+        } else {
+            while (t <= 1) {
+                t += Time.deltaTime * 2f;
+                speed = Mathf.Lerp(speed, oldSpeed, t);
+                yield return new WaitForEndOfFrame();
+            }
+        }
+    }
     private IEnumerator Split() {
         splitting = true;
         for (int i = ObjectManager.singleton.socketList.Count - 1; i >= 0; i--) {
             GameObject obj = ObjectManager.singleton.socketList[i].attachedAttachPoint.transform.parent.gameObject;
             obj.GetComponent<Split>().SplitUp(speed);
-            yield return new WaitUntil(()=> !obj.GetComponent<Split>().currentlySplitting);
+            yield return new WaitUntil(() => !obj.GetComponent<Split>().currentlySplitting);
         }
         splitting = false;
         splitted = true;
