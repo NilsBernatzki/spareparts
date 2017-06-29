@@ -8,6 +8,7 @@ public class SelectObject : MonoBehaviour {
     public event System.Action<ChainObject> deselectChainObjectEvent; 
     public bool selectionMode;
     public ChainObject selectedChainObject;
+    public Camera mainCamera;
 	// Use this for initialization
 	void Start () {
 		
@@ -26,14 +27,17 @@ public class SelectObject : MonoBehaviour {
                     ChainObject chainObject = hit.collider.gameObject.GetComponent<MeshObject>().chainObject;
                     selectedChainObject = chainObject;
                     SelectChainObject(chainObject);
+                    mainCamera.GetComponent<FocusSelection>().selectedChainObject = chainObject;
                 }
             }
         }
         if (Input.GetMouseButtonDown(1)) {
-            if (!SplitManager.singleton.splitted) return;
-            if (!selectionMode) return;
+            //if (!SplitManager.singleton.splitted) return;
+            //if (!selectionMode) return;
             selectionMode = false;
-            Debug.Log("Deselection");
+            selectedChainObject = null;
+            DeselectChainObject();
+            mainCamera.GetComponent<FocusSelection>().selectedChainObject = null;
         }
     }
     private void DeselectChainObject() {

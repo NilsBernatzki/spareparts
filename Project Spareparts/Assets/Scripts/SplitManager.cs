@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum SplitBehavior {SplitSmoothVelocity};
+
 public class SplitManager : MonoBehaviour {
 
     public static SplitManager singleton;
@@ -19,14 +21,17 @@ public class SplitManager : MonoBehaviour {
     private bool reverting;
     private bool splitting;
     public bool splitted;
-    
+
+    private SelectObject selectObject;
+    public SplitBehavior splitBehavior;
+
     private void Awake() {
         singleton = this;
     }
 
     // Use this for initialization
     void Start () {
-
+        selectObject = GameManager.singleton.GetComponent<SelectObject>();
     }
 	public void SetUp() {
         StartCoroutine(StartSetupCoroutine());
@@ -44,20 +49,20 @@ public class SplitManager : MonoBehaviour {
         if (ObjectManager.singleton.model == null) return;
         if (Input.GetKeyDown(KeyCode.LeftControl) && finishedStartSplit) {
             if(!splitting && !reverting) {
-                StartCoroutine(Split());
+                StartCoroutine(FullSplit());
             }
         }
         if (Input.GetKeyDown(KeyCode.LeftAlt) && finishedStartSplit) {
             if (!splitting && !reverting) {
-                StartCoroutine(Revert());
+                StartCoroutine(FullRevert());
             }
         }
         if (!finishedStartSplit) return;
         if (Input.GetKeyDown(KeyCode.P)) {
             paused = !paused;
-            StartCoroutine(LerpSpeed());
+            StartCoroutine(LerpSpeedOnPause());
         }
-        if (Input.GetKeyDown(KeyCode.UpArrow)) {
+        if (Input.GetKeyDown(KeyCode.KeypadPlus)) {
             oldSpeed += speedAddSubAmount;
             if (oldSpeed > maxSpeed) {
                 oldSpeed = maxSpeed;
@@ -68,7 +73,7 @@ public class SplitManager : MonoBehaviour {
                 speed = maxSpeed;
             }
         }
-        if (Input.GetKeyDown(KeyCode.DownArrow)) {
+        if (Input.GetKeyDown(KeyCode.KeypadMinus)) {
             oldSpeed -= speedAddSubAmount;
             if (oldSpeed < minSpeed) {
                 oldSpeed = minSpeed;
@@ -80,7 +85,7 @@ public class SplitManager : MonoBehaviour {
             }
         }
     }
-    private IEnumerator LerpSpeed() {
+    private IEnumerator LerpSpeedOnPause() {
         float t = 0;
         if (paused) {
             while(t <= 1) {
@@ -96,24 +101,32 @@ public class SplitManager : MonoBehaviour {
             }
         }
     }
-    private IEnumerator Split() {
+    private IEnumerator FullSplit() {
         splitting = true;
         for (int i = ObjectManager.singleton.socketList.Count - 1; i >= 0; i--) {
             GameObject obj = ObjectManager.singleton.socketList[i].attachedAttachPoint.transform.parent.gameObject;
             obj.GetComponent<Split>().SplitUp(speed);
-            yield return new WaitUntil(() => !obj.GetComponent<Split>().currentlySplitting);
+            if(i == 0 || selectObject.selectionMode) {
+                yield return new WaitUntil(() => !obj.GetComponent<Split>().currentlySplitting);
+            }
+            yield return new WaitForEndOfFrame();
         }
+        yield return new WaitForSeconds(1.5f);
         splitting = false;
         splitted = true;
     }
-    private IEnumerator Revert() {
+    private IEnumerator FullRevert() {
         reverting = true;
         for (int i = 0; i < ObjectManager.singleton.socketList.Count; i++) {
             GameObject obj = ObjectManager.singleton.socketList[i].attachedAttachPoint.transform.parent.gameObject;
             obj.GetComponent<ChainObject>().meshObject.GetComponent<MeshRenderer>().enabled = true;
             obj.GetComponent<Split>().Revert(speed);
-            yield return new WaitUntil(() => !obj.GetComponent<Split>().currentlySplitting);
+            if (i == ObjectManager.singleton.socketList.Count-1 || selectObject.selectionMode) {
+                yield return new WaitUntil(() => !obj.GetComponent<Split>().currentlySplitting);
+            }
+            yield return new WaitForEndOfFrame();
         }
+        yield return new WaitForSeconds(1.5f);
         reverting = false;
         splitted = false;
     }

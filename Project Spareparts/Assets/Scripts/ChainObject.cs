@@ -52,12 +52,12 @@ public class ChainObject : MonoBehaviour {
         if (chainObject == this) {
             if (!isSelected) {
                 isSelected = true;
-                Debug.Log("selected: " + this.gameObject.name, this);
+                //Debug.Log("selected: " + this.gameObject.name, this);
             }
         } else {
             if (isSelected) {
                 isSelected = false;
-                Debug.Log("deselected: " + this.gameObject.name, this);
+                //Debug.Log("??");
             }
         }
     }

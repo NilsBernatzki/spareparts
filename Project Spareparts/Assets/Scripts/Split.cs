@@ -2,41 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(MovePart))]
 public class Split : MonoBehaviour {
 
-    public bool currentlySplitting;
-
     private WaitForEndOfFrame waitFrame;
-    public ChainObject chainObj;
-    private Rigidbody rig;
-
-    private Vector3 goalPos;
-    private float splitSpeed;
-
+    private ChainObject chainObj;
     private float t;
     private float time;
     private float length;
+    private MovePart movePart;
+
+    public Vector3 goalPos;
+    public bool currentlySplitting;
 
     // Use this for initialization
     void Start () {
-        
+        movePart = GetComponent<MovePart>();
     }
 	// Update is called once per frame
 	void Update () {
         if (GameManager.singleton.finishedSetup) {
-            Move();
+            //movePart.Move();
         }
-	}
+    }
     public void SetFields() {
         chainObj = GetComponent<ChainObject>();
         waitFrame = new WaitForEndOfFrame();
-        rig = GetComponent<Rigidbody>();
-        splitSpeed = SplitManager.singleton.speed;
     }
     public void SplitUp(float speed) {
         currentlySplitting = true;
         if (GameManager.singleton.finishedSetup) {
             goalPos = chainObj.endPos;
+            movePart.Move();
         } else {
             ResetValues();
             StartCoroutine(LerpFromTo(chainObj.startPos, chainObj.endPos, speed));
@@ -47,6 +44,7 @@ public class Split : MonoBehaviour {
         currentlySplitting = true;
         if (GameManager.singleton.finishedSetup) {
             goalPos = chainObj.startPos;
+            movePart.Move();
         } else {
             ResetValues();
             if (!chainObj.ghost) {
@@ -75,16 +73,5 @@ public class Split : MonoBehaviour {
         time = 0;
         length = Vector3.Distance(chainObj.startPos, chainObj.endPos);
     }
-    private void Move() {
-        if (goalPos == Vector3.zero) return;
-        splitSpeed = SplitManager.singleton.speed;
-        Vector3 dir = goalPos - transform.position;
-        rig.velocity = dir * splitSpeed;
-        if (currentlySplitting) {
-            float dist = Vector3.Distance(transform.position, goalPos);
-            if (dist <= 0.1f) {
-                currentlySplitting = false;
-            }
-        }
-    }
+    
 }
