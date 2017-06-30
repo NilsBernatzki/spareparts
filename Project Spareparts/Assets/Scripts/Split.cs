@@ -21,9 +21,7 @@ public class Split : MonoBehaviour {
     }
 	// Update is called once per frame
 	void Update () {
-        if (GameManager.singleton.finishedSetup) {
-            //movePart.Move();
-        }
+        
     }
     public void SetFields() {
         chainObj = GetComponent<ChainObject>();

@@ -16,6 +16,7 @@ public class ObjectManager : MonoBehaviour {
     public LayerMask socketLayer;
     private List<GameObject> sparepartList = new List<GameObject>();
     private List<Attachpoint> attachPointList = new List<Attachpoint>();
+    public List<GameObject> meshes = new List<GameObject>();
     public List<Socket> socketList = new List<Socket>();
     public float capsuleColMeshAdd;
     public float minCollHeigth;
@@ -156,6 +157,7 @@ public class ObjectManager : MonoBehaviour {
             part.AddComponent<PlaceGhost>();
             part.AddComponent<MeshObject>();
             part.GetComponent<MeshObject>().chainObject = part.transform.parent.GetComponent<ChainObject>();
+            meshes.Add(part);
         }
     }
     private void MoveToLayer(GameObject part, string layerName) {

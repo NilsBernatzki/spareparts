@@ -29,10 +29,11 @@ public class FocusSelection : MonoBehaviour {
 	}
     
     private void FocusSelectedChainObject(ChainObject chainObject) {
-        print("focus");
         StartCoroutine(Rotate(chainObject));
         StartCoroutine(CloseUp(chainObject));
     }
+    
+   
     private IEnumerator Rotate(ChainObject chainObject) {
         Vector3 dir;
         Quaternion tempStartRot = transform.rotation;
@@ -44,6 +45,7 @@ public class FocusSelection : MonoBehaviour {
             yield return new WaitForEndOfFrame();
         }
     }
+    
     private IEnumerator CloseUp(ChainObject chainObject) {
         Vector3 dir = chainObject.transform.position - transform.position;
         Vector3 goalPos = transform.position + dir / 2f;
@@ -54,9 +56,12 @@ public class FocusSelection : MonoBehaviour {
             transform.position = Vector3.Slerp(tempStartPos, goalPos, Mathf.Pow(t, 2));
             yield return new WaitForEndOfFrame();
         }
+        ParentToChainObject(chainObject);
+    }
+    private void ParentToChainObject(ChainObject chainObject) {
+        transform.parent = chainObject.transform;
     }
     private void ResetTransform(ChainObject chainObject) {
-        print("defocus");
         StartCoroutine(ResetPosition());
         StartCoroutine(ResetRotation());
     }
@@ -70,6 +75,7 @@ public class FocusSelection : MonoBehaviour {
         }
     }
     private IEnumerator ResetPosition() {
+        UnChildFromChainObject();
         float t = 0;
         Vector3 tempStartPos = transform.position;
         while (t < 1) {
@@ -77,5 +83,8 @@ public class FocusSelection : MonoBehaviour {
             transform.position = Vector3.Slerp(tempStartPos, startPos, Mathf.Pow(t, 2));
             yield return new WaitForEndOfFrame();
         }
+    }
+    private void UnChildFromChainObject() {
+        transform.parent = null;
     }
 }

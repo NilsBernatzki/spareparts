@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlaceGhost : MonoBehaviour {
 
     public bool active;
-    public float distToNeighbor = 2.5f;
+    public float distToNeighbor = 3.5f;
     private MeshObject meshObject;
     private ChainObject chainObj;
 

@@ -58,10 +58,16 @@ public class SplitManager : MonoBehaviour {
             }
         }
         if (!finishedStartSplit) return;
+        PauseSplit();
+        ChangeSplitSpeed();
+    }
+    private void PauseSplit() {
         if (Input.GetKeyDown(KeyCode.P)) {
             paused = !paused;
             StartCoroutine(LerpSpeedOnPause());
         }
+    }
+    private void ChangeSplitSpeed() {
         if (Input.GetKeyDown(KeyCode.KeypadPlus)) {
             oldSpeed += speedAddSubAmount;
             if (oldSpeed > maxSpeed) {
@@ -69,7 +75,7 @@ public class SplitManager : MonoBehaviour {
             }
             if (paused) return;
             speed += speedAddSubAmount;
-            if(speed > maxSpeed) {
+            if (speed > maxSpeed) {
                 speed = maxSpeed;
             }
         }
