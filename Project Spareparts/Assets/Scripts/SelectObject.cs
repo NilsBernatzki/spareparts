@@ -6,11 +6,14 @@ public class SelectObject : MonoBehaviour {
 
     public event System.Action<ChainObject> selectedChainObjectEvent;
     public event System.Action<ChainObject> deselectChainObjectEvent;
+    public event System.Action<ChainObject> enterSingleViewChainObjectEvent;
+    public event System.Action<ChainObject> exitSingleViewChainObjectEvent;
+
     public bool selectionMode;
     public ChainObject selectedChainObject;
+    public bool singleView;
     public Camera mainCamera;
-    [Range(0,1)]
-    public float alpha;
+   
     // Use this for initialization
     void Start() {
 
@@ -18,6 +21,23 @@ public class SelectObject : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+
+        if (selectionMode) {
+            if (Input.GetKeyDown(KeyCode.S)) {
+                if (selectedChainObject != null) {
+                    if (!singleView) {
+                        singleView = true;
+                        EnterSingleView(selectedChainObject);
+                        return;
+                    } else {
+                        singleView = false;
+                        ExitSingleView(selectedChainObject);
+                        return;
+                    }
+                }
+            }
+        }
+        if (singleView) return;
         if (Input.GetMouseButtonDown(0)) {
             if (!SplitManager.singleton.splitted) return;
             if (selectionMode) return;
@@ -30,7 +50,6 @@ public class SelectObject : MonoBehaviour {
                     selectedChainObject = chainObject;
                     SelectChainObject(chainObject);
                     mainCamera.GetComponent<FocusSelection>().selectedChainObject = chainObject;
-                    StartCoroutine(TransparentAll());
                 }
             }
         }
@@ -41,24 +60,9 @@ public class SelectObject : MonoBehaviour {
             selectedChainObject = null;
             DeselectChainObject();
             mainCamera.GetComponent<FocusSelection>().selectedChainObject = null;
-            StartCoroutine(UnTransparentAll());
         }
     }
-    private IEnumerator TransparentAll() {
-        foreach (GameObject mesh in ObjectManager.singleton.meshes) {
-            if (mesh.GetComponent<MeshObject>().chainObject == selectedChainObject) continue;
-
-            mesh.GetComponent<ChangeColor>().Transparent(alpha);
-            yield return new WaitForEndOfFrame();
-        }
-    }
-    private IEnumerator UnTransparentAll() {
-        foreach (GameObject mesh in ObjectManager.singleton.meshes) {
-            if (mesh.GetComponent<MeshObject>().chainObject == selectedChainObject) continue;
-            mesh.GetComponent<ChangeColor>().Untransparent();
-            yield return new WaitForEndOfFrame();
-        }
-    }
+    
    
     private void DeselectChainObject() {
         if(deselectChainObjectEvent != null) {
@@ -68,6 +72,16 @@ public class SelectObject : MonoBehaviour {
     private void SelectChainObject(ChainObject chainObject) {
         if(selectedChainObjectEvent != null) {
             selectedChainObjectEvent(chainObject);
+        }
+    }
+    private void EnterSingleView(ChainObject selectedChainObject) {
+        if(enterSingleViewChainObjectEvent != null) {
+            enterSingleViewChainObjectEvent(selectedChainObject);
+        }
+    }
+    private void ExitSingleView(ChainObject selectedChainObject) {
+        if(exitSingleViewChainObjectEvent != null) {
+            exitSingleViewChainObjectEvent(selectedChainObject);
         }
     }
 }

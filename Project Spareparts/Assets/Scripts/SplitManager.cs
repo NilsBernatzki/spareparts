@@ -14,6 +14,7 @@ public class SplitManager : MonoBehaviour {
     public float maxSpeed;
     public float minSpeed;
     public float speedAddSubAmount;
+    public float speedOfSelected;
     public bool paused;
     public bool startSplitting;
     public bool startReverting;
@@ -47,6 +48,7 @@ public class SplitManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (ObjectManager.singleton.model == null) return;
+        if (GameManager.singleton.GetComponent<SelectObject>().singleView) return;
         if (Input.GetKeyDown(KeyCode.LeftControl) && finishedStartSplit) {
             if(!splitting && !reverting) {
                 StartCoroutine(FullSplit());
@@ -64,7 +66,7 @@ public class SplitManager : MonoBehaviour {
     private void PauseSplit() {
         if (Input.GetKeyDown(KeyCode.P)) {
             paused = !paused;
-            StartCoroutine(LerpSpeedOnPause());
+            LerpSpeedOnPause();
         }
     }
     private void ChangeSplitSpeed() {
@@ -91,26 +93,31 @@ public class SplitManager : MonoBehaviour {
             }
         }
     }
-    private IEnumerator LerpSpeedOnPause() {
-        float t = 0;
+    private void LerpSpeedOnPause() {
         if (paused) {
-            while(t <= 1) {
-                t += Time.deltaTime * 2f;
-                speed = Mathf.Lerp(speed, 0f, t);
-                yield return new WaitForEndOfFrame();
-            }
+            StartCoroutine(LerpSpeed(speed, 0f, 1f));
         } else {
-            while (t <= 1) {
-                t += Time.deltaTime * 2f;
-                speed = Mathf.Lerp(speed, oldSpeed, t);
-                yield return new WaitForEndOfFrame();
-            }
+            StartCoroutine(LerpSpeed(speed, oldSpeed, 2f));
+        }
+    }
+    
+    private IEnumerator LerpSpeed(float from, float to,float Tmult) {
+        float t = 0;
+        float tempFrom = from;
+        float tempTo = to;
+        while(t < 1) {
+            t += Time.deltaTime * Tmult;
+            speed = Mathf.Lerp(tempFrom, tempTo, t);
+            yield return new WaitForEndOfFrame();
         }
     }
     private IEnumerator FullSplit() {
         splitting = true;
         for (int i = ObjectManager.singleton.socketList.Count - 1; i >= 0; i--) {
             GameObject obj = ObjectManager.singleton.socketList[i].attachedAttachPoint.transform.parent.gameObject;
+            if (selectObject.selectionMode) {
+                ChangeSpeedWhenSelected(obj.GetComponent<ChainObject>());
+            }
             obj.GetComponent<Split>().SplitUp(speed);
             if(i == 0 || selectObject.selectionMode) {
                 yield return new WaitUntil(() => !obj.GetComponent<Split>().currentlySplitting);
@@ -126,8 +133,11 @@ public class SplitManager : MonoBehaviour {
         for (int i = 0; i < ObjectManager.singleton.socketList.Count; i++) {
             GameObject obj = ObjectManager.singleton.socketList[i].attachedAttachPoint.transform.parent.gameObject;
             obj.GetComponent<ChainObject>().meshObject.GetComponent<MeshRenderer>().enabled = true;
+            if (selectObject.selectionMode) {
+                ChangeSpeedWhenSelected(obj.GetComponent<ChainObject>());
+            }
             obj.GetComponent<Split>().Revert(speed);
-            if (i == ObjectManager.singleton.socketList.Count-1 || selectObject.selectionMode) {
+            if (i == ObjectManager.singleton.socketList.Count-1 || selectObject.selectionMode) {   
                 yield return new WaitUntil(() => !obj.GetComponent<Split>().currentlySplitting);
             }
             yield return new WaitForEndOfFrame();
@@ -154,5 +164,12 @@ public class SplitManager : MonoBehaviour {
             yield return new WaitUntil(() => !obj.GetComponent<Split>().currentlySplitting);
         }
         startReverting = false;
+    }
+    private void ChangeSpeedWhenSelected(ChainObject chainObject) {
+        if(chainObject == selectObject.selectedChainObject) {
+            speed = speedOfSelected;
+        } else {
+            speed = oldSpeed;
+        }
     }
 }

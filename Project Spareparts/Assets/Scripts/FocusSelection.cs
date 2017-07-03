@@ -12,15 +12,17 @@ public class FocusSelection : MonoBehaviour {
 
     private bool focused;
     public float animationSpeed;
+    [Range(0, 1)]
+    public float alpha;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         startRot = transform.rotation;
         startPos = transform.position;
 
         selectObject = GameManager.singleton.GetComponent<SelectObject>();
         selectObject.selectedChainObjectEvent += FocusSelectedChainObject;
-        selectObject.deselectChainObjectEvent += ResetTransform;
+        selectObject.deselectChainObjectEvent += DefocusSelectedChainObject;
     }
 	
 	// Update is called once per frame
@@ -29,6 +31,7 @@ public class FocusSelection : MonoBehaviour {
 	}
     
     private void FocusSelectedChainObject(ChainObject chainObject) {
+        StartCoroutine(TransparentAll());
         StartCoroutine(Rotate(chainObject));
         StartCoroutine(CloseUp(chainObject));
     }
@@ -61,7 +64,8 @@ public class FocusSelection : MonoBehaviour {
     private void ParentToChainObject(ChainObject chainObject) {
         transform.parent = chainObject.transform;
     }
-    private void ResetTransform(ChainObject chainObject) {
+    private void DefocusSelectedChainObject(ChainObject chainObject) {
+        StartCoroutine(UnTransparentAll());
         StartCoroutine(ResetPosition());
         StartCoroutine(ResetRotation());
     }
@@ -86,5 +90,20 @@ public class FocusSelection : MonoBehaviour {
     }
     private void UnChildFromChainObject() {
         transform.parent = null;
+    }
+    private IEnumerator TransparentAll() {
+        foreach (GameObject mesh in ObjectManager.singleton.meshes) {
+            if (mesh.GetComponent<MeshObject>().chainObject == selectedChainObject) continue;
+
+            mesh.GetComponent<ChangeColor>().Transparent(alpha);
+            yield return new WaitForEndOfFrame();
+        }
+    }
+    private IEnumerator UnTransparentAll() {
+        foreach (GameObject mesh in ObjectManager.singleton.meshes) {
+            if (mesh.GetComponent<MeshObject>().chainObject == selectedChainObject) continue;
+            mesh.GetComponent<ChangeColor>().Untransparent();
+            yield return new WaitForEndOfFrame();
+        }
     }
 }
