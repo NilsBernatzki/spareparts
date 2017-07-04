@@ -88,7 +88,9 @@
     <Compile Include="Assets\Scripts\MovePart.cs" />
     <Compile Include="Assets\Scripts\ObjectManager.cs" />
     <Compile Include="Assets\Scripts\PlaceGhost.cs" />
+    <Compile Include="Assets\Scripts\Rotate.cs" />
     <Compile Include="Assets\Scripts\SelectObject.cs" />
+    <Compile Include="Assets\Scripts\SingleView.cs" />
     <Compile Include="Assets\Scripts\Socket.cs" />
     <Compile Include="Assets\Scripts\Split.cs" />
     <Compile Include="Assets\Scripts\SplitManager.cs" />

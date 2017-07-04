@@ -9,6 +9,7 @@ public class SingleView : MonoBehaviour {
     private Vector3 tempFocusPos;
     private Quaternion tempFocusRot;
     public ChainObject singleViewChainObject;
+    public GameObject pivot;
 
 	// Use this for initialization
 	void Start () {
@@ -28,11 +29,12 @@ public class SingleView : MonoBehaviour {
         StartCoroutine(SetTransparency(0));
         StartCoroutine(CloseUp(chainObject));
         StartCoroutine(Rotate(chainObject));
+        SetTempPivotToChainObject(chainObject);
     }
     private void ExitSingleView(ChainObject chainObject) {
         StartCoroutine(SetTransparency(focus.alpha));
-        StartCoroutine(ResetPosition());
-        StartCoroutine(ResetRotation());
+        StartCoroutine(ResetPosition(chainObject));
+        StartCoroutine(ResetRotation(chainObject));
     }
     private void SetTempValues() {
         tempFocusPos = transform.position;
@@ -56,6 +58,7 @@ private IEnumerator SetTransparency(float alpha) {
             transform.position = Vector3.Slerp(tempStartPos, goalPos, Mathf.Pow(t, 2));
             yield return new WaitForEndOfFrame();
         }
+        UnChildFromChainObject();
     }
     private IEnumerator Rotate(ChainObject chainObject) {
         GameObject mesh = chainObject.meshObject;
@@ -69,7 +72,8 @@ private IEnumerator SetTransparency(float alpha) {
             yield return new WaitForEndOfFrame();
         }
     }
-    private IEnumerator ResetPosition() {
+    private IEnumerator ResetPosition(ChainObject chainObject) {
+        ParentToChainObject(chainObject);
         float t = 0;
         Vector3 tempStartPos = transform.position;
         while (t < 1) {
@@ -78,7 +82,7 @@ private IEnumerator SetTransparency(float alpha) {
             yield return new WaitForEndOfFrame();
         }
     }
-    private IEnumerator ResetRotation() {
+    private IEnumerator ResetRotation(ChainObject chainObject) {
         float t = 0;
         Quaternion tempStartRot = transform.rotation;
         while (t < 1) {
@@ -86,5 +90,16 @@ private IEnumerator SetTransparency(float alpha) {
             transform.rotation = Quaternion.Slerp(tempStartRot, tempFocusRot, Mathf.Pow(t, 2));
             yield return new WaitForEndOfFrame();
         }
+    }
+    private void ParentToChainObject(ChainObject chainObject) {
+        transform.parent = chainObject.transform;
+    }
+    private void UnChildFromChainObject() {
+        transform.parent = null;
+    }
+    private void SetTempPivotToChainObject(ChainObject chainObject) {
+        Vector3 colliderCenter = chainObject.transform.position; 
+        GameObject tempPivot = Instantiate(pivot, colliderCenter, Quaternion.identity);
+        chainObject.transform.parent = tempPivot.transform;
     }
 }

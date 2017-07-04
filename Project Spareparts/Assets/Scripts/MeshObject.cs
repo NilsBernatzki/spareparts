@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 [RequireComponent(typeof(ChangeColor))]
 public class MeshObject : MonoBehaviour {
     public ChainObject chainObject;

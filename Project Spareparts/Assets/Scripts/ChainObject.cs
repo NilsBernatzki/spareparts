@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[RequireComponent(typeof(Rotate))]
 public class ChainObject : MonoBehaviour {
     public PlaceGhost placeGhost;
     public bool isRoot;
