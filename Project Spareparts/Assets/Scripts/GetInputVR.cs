@@ -17,8 +17,7 @@ public enum ViveHand
 }
 
 public class GetInputVR : MonoBehaviour{
-
-
+   
     public GameObject cameraRig;
 
     public static GetInputVR singleton;
@@ -63,69 +62,55 @@ public class GetInputVR : MonoBehaviour{
     /// <param name="button"> use KeyCodeVR enum to determine which button.  </param>
     /// <param name="hand"> use ViveHand Enum to choose hand  </param>
     /// <returns></returns>
-    public bool GetKeyDown(KeyCodeVR button, ViveHand hand)
-    {
-        
+    public bool GetKeyDown(KeyCodeVR button, ViveHand hand) {
+
         bool toReturn = false;
         int handIndex = 0;
 
-        if (hand == ViveHand.right)
-        {
+        if (hand == ViveHand.right) {
             handIndex = 1;
-        }
-        else handIndex = 0;
+        } else handIndex = 0;
 
-        if (SteamVR_Controller.Input((int)trackedObj[handIndex].index) == null)
-        {
+        if (SteamVR_Controller.Input((int)trackedObj[handIndex].index) == null) {
             return toReturn;
         }
 
-        
-                switch (button)
 
-                {
-                    case KeyCodeVR.trigger:
+        switch (button) {
+            case KeyCodeVR.trigger:
 
-                        if (SteamVR_Controller.Input((int)trackedObj[handIndex].index).GetPressDown(trigger))
-                        {
-                            
-                            toReturn = true;
-                        }
-                        else
-                        {
-                            toReturn = false;
-                        }
+                if (SteamVR_Controller.Input((int)trackedObj[handIndex].index).GetPressDown(trigger)) {
 
-                         break;
-
-                     
-                    case KeyCodeVR.grip:
-
-                        if (SteamVR_Controller.Input((int)trackedObj[handIndex].index).GetPressDown(grip))
-                        {
-                           
-                            toReturn = true;
-                        }
-                        else
-                        {
-                            toReturn = false;
-                        }
-
-                        break;
-
-                    case KeyCodeVR.touch:
-
-                        if (SteamVR_Controller.Input((int)trackedObj[handIndex].index).GetPressDown(touch))
-                        {
-                            toReturn = true;
-                        }else
-                        {
-                            toReturn = false;
-                        }
-
-                        break;
+                    toReturn = true;
+                } else {
+                    toReturn = false;
                 }
-             
+
+                break;
+
+
+            case KeyCodeVR.grip:
+
+                if (SteamVR_Controller.Input((int)trackedObj[handIndex].index).GetPressDown(grip)) {
+
+                    toReturn = true;
+                } else {
+                    toReturn = false;
+                }
+
+                break;
+
+            case KeyCodeVR.touch:
+
+                if (SteamVR_Controller.Input((int)trackedObj[handIndex].index).GetPressDown(touch)) {
+                    toReturn = true;
+                } else {
+                    toReturn = false;
+                }
+
+                break;
+        }
+
         return toReturn;
     }
 
