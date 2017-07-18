@@ -13,6 +13,7 @@ public class SplittManager : MonoBehaviour {
     private InputsVR inputs;
 
     //parameter
+    [SerializeField]
     private bool blockInputs;
     public float globalSplitSpeed;
 
@@ -29,8 +30,12 @@ public class SplittManager : MonoBehaviour {
         if (!blockInputs) {
             
             if (vrInput.GetKeyDown(inputs._split.button, inputs._split.hand)){
-                Debug.Log("test");
-                //StartCoroutine(SplitAllSplittables());
+                StartCoroutine(SplitAllSplittables());
+                return;
+            }
+            if (vrInput.GetKeyDown(inputs._revert.button, inputs._revert.hand)) {
+                StartCoroutine(RevertAllSplittables());
+                return;
             }
         }
     }
@@ -41,11 +46,18 @@ public class SplittManager : MonoBehaviour {
             splittable.Split();
             yield return null;
         }
-        blockInputs = true;
+        blockInputs = false;
     }
-
+    private IEnumerator RevertAllSplittables() {
+        blockInputs = true;
+        foreach (Splittable splittable in _allSplittablesList) {
+            splittable.Revert();
+            yield return null;
+        }
+        blockInputs = false;
+    }
     //Other
-#region
+    #region
     public void AddSplittable(Splittable splittable) {
         _allSplittablesList.Add(splittable);
     }

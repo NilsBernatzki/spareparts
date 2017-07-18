@@ -67,7 +67,7 @@ public class Splittable : MonoBehaviour {
         //Position
         Vector3 dir = currentTransformSet.position - _rig.position;
         float clampMagnitude = Vector3.ClampMagnitude(dir, 1f).magnitude;
-        Vector3 movement = dir * speed * timefdelta * clampMagnitude;
+        Vector3 movement = dir.normalized * speed * timefdelta * clampMagnitude;
 
         //Rotation
         Quaternion rot = Quaternion.RotateTowards(_rig.rotation, currentTransformSet.rotation, timefdelta * speed);

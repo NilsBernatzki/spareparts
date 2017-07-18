@@ -15,8 +15,11 @@ public class PreExecutionEditor : Editor {
         if (GUILayout.Button("Save End Positions")) {
             preExe.SetEndPositionOfSpareParts();
         }
-        if (GUILayout.Button("Return Objects")) {
-            preExe.ReturnObjects();
+        if (GUILayout.Button("Set Position To Start")) {
+            preExe.SetObjectsToStartPos();
+        }
+        if (GUILayout.Button("Set Position To End")) {
+            preExe.SetObjectsToEndPos();
         }
     }
 }

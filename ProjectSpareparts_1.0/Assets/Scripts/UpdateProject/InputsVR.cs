@@ -8,8 +8,10 @@ public struct InputVRStruct {
     public KeyCodeVR button;
 }
 public class InputsVR : MonoBehaviour {
+
     public static InputsVR singleton;
     public InputVRStruct _split;
+    public InputVRStruct _revert;
 
     private void Awake() {
         singleton = this;
