@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class SplittManager : MonoBehaviour {
 
     public static SplittManager singleton;
@@ -9,6 +10,7 @@ public class SplittManager : MonoBehaviour {
     private List<Splittable> _allSplittablesList = new List<Splittable>();
 
     private GetInputVR vrInput;
+    private InputsVR inputs;
 
     //parameter
     private bool blockInputs;
@@ -18,12 +20,13 @@ public class SplittManager : MonoBehaviour {
     }
     private void Start() {
         vrInput = GetInputVR.singleton;
+        inputs = InputsVR.singleton;
     }
     private void Update() {
 
         if (!blockInputs) {
-
-            if (vrInput.GetKeyDown(KeyCodeVR.trigger, ViveHand.left)){
+            
+            if (vrInput.GetKeyDown(KeyCodeVR.trigger,ViveHand.left)){
                 Debug.Log("test");
                 //StartCoroutine(SplitAllSplittables());
             }

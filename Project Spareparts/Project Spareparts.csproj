@@ -98,6 +98,7 @@
     <Compile Include="Assets\Scripts\Socket.cs" />
     <Compile Include="Assets\Scripts\Split.cs" />
     <Compile Include="Assets\Scripts\SplitManager.cs" />
+    <Compile Include="Assets\Scripts\UpdateProject\InputsVR.cs" />
     <Compile Include="Assets\Scripts\UpdateProject\SplittManager.cs" />
     <Compile Include="Assets\Scripts\UpdateProject\Splittable.cs" />
     <Compile Include="Assets\SteamVR\Extras\SteamVR_GazeTracker.cs" />
