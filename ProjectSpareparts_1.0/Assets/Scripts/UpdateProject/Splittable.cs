@@ -8,10 +8,12 @@ public enum SplittableState {
 }
 [System.Serializable]
 public struct SplittableTransforms {
+    [SerializeField]
     public Vector3 position;
+    [SerializeField]
     public Quaternion rotation;
 }
-
+[System.Serializable]
 public class Splittable : MonoBehaviour {
 
     private SplittManager _splittManager;
@@ -20,20 +22,26 @@ public class Splittable : MonoBehaviour {
     [SerializeField]
     private int splitIndex;
     [SerializeField]
-    private SplittableTransforms _startSet;
+    public SplittableTransforms _startSet;
     [SerializeField]
-    private SplittableTransforms _endSet;
+    public SplittableTransforms _endSet;
     [SerializeField]
-    private SplittableTransforms _currentSet;
+    public SplittableTransforms _currentSet;
 
     private SplittableState _currentState;
 
+    [SerializeField]
+    private bool ownSpeed;
     [SerializeField]
     private float _splittSpeed;
 
 	// Use this for initialization
 	void Start () {
         Initialisation();
+        if (!ownSpeed) {
+            _splittSpeed = _splittManager.globalSplitSpeed;
+        }
+        ChangeCurrentTransformSet(_startSet);
 	}
 	void Initialisation() {
         _splittManager = SplittManager.singleton;
@@ -42,7 +50,7 @@ public class Splittable : MonoBehaviour {
     }
 	// Update is called once per frame
 	void FixedUpdate () {
-        //Move(_currentSet,_splittSpeed);
+        Move(_currentSet,_splittSpeed);
 	}
 
     public void Split() {
@@ -59,7 +67,7 @@ public class Splittable : MonoBehaviour {
         //Position
         Vector3 dir = currentTransformSet.position - _rig.position;
         float clampMagnitude = Vector3.ClampMagnitude(dir, 1f).magnitude;
-        Vector3 movement = dir.normalized * speed * timefdelta * clampMagnitude;
+        Vector3 movement = dir * speed * timefdelta * clampMagnitude;
 
         //Rotation
         Quaternion rot = Quaternion.RotateTowards(_rig.rotation, currentTransformSet.rotation, timefdelta * speed);

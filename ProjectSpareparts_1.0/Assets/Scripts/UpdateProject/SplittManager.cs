@@ -14,6 +14,7 @@ public class SplittManager : MonoBehaviour {
 
     //parameter
     private bool blockInputs;
+    public float globalSplitSpeed;
 
     private void Awake() {
         singleton = this;

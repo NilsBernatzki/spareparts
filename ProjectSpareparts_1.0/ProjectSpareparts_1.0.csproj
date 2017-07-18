@@ -81,6 +81,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\PreExecution.cs" />
     <Compile Include="Assets\Scripts\Scripts\Attachpoint.cs" />
     <Compile Include="Assets\Scripts\Scripts\ChainObject.cs" />
     <Compile Include="Assets\Scripts\Scripts\ChangeColor.cs" />
