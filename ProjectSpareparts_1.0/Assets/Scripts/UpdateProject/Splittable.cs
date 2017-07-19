@@ -4,7 +4,7 @@ using UnityEngine;
 
 [System.Serializable]
 public enum SplittableState {
-    start, end, splitting
+    start, end
 }
 [System.Serializable]
 public struct SplittableTransforms {
@@ -18,35 +18,29 @@ public class Splittable : MonoBehaviour {
 
     private SplittManager _splittManager;
     private Rigidbody _rig;
-
     [SerializeField]
-    private int splitIndex;
+    public SplittableState _currentState;
+    public int splitIndex;
     [SerializeField]
     public SplittableTransforms _startSet;
     [SerializeField]
     public SplittableTransforms _endSet;
     [SerializeField]
     public SplittableTransforms _currentSet;
-
-    private SplittableState _currentState;
-
-    [SerializeField]
-    private bool ownSpeed;
-    [SerializeField]
+   
     private float _splittSpeed;
 
 	// Use this for initialization
 	void Start () {
         Initialisation();
-        if (!ownSpeed) {
-            _splittSpeed = _splittManager.globalSplitSpeed;
-        }
+        _splittSpeed = _splittManager.globalSplitSpeed;
         ChangeCurrentTransformSet(_startSet);
 	}
 	void Initialisation() {
         _splittManager = SplittManager.singleton;
         _splittManager.AddSplittable(this);
         _rig = GetComponent<Rigidbody>();
+        gameObject.layer = LayerMask.NameToLayer("Splittable");
     }
 	// Update is called once per frame
 	void FixedUpdate () {
@@ -55,10 +49,12 @@ public class Splittable : MonoBehaviour {
 
     public void Split() {
         ChangeCurrentTransformSet(_endSet);
+        ChangeState(SplittableState.end);
     }
 
     public void Revert() {
         ChangeCurrentTransformSet(_startSet);
+        ChangeState(SplittableState.start);
     }
 
     private void Move(SplittableTransforms currentTransformSet, float speed) {
@@ -66,7 +62,7 @@ public class Splittable : MonoBehaviour {
         float timefdelta = Time.fixedDeltaTime;
         //Position
         Vector3 dir = currentTransformSet.position - _rig.position;
-        float clampMagnitude = Vector3.ClampMagnitude(dir, 1f).magnitude;
+        float clampMagnitude = Vector3.ClampMagnitude(dir, 1).magnitude;
         Vector3 movement = dir.normalized * speed * timefdelta * clampMagnitude;
 
         //Rotation
@@ -79,5 +75,8 @@ public class Splittable : MonoBehaviour {
     private void ChangeCurrentTransformSet(SplittableTransforms newTransformSet) {
         _currentSet.position = newTransformSet.position;
         _currentSet.rotation = newTransformSet.rotation;
+    }
+    private void ChangeState(SplittableState newState) {
+        _currentState = newState;
     }
 }
