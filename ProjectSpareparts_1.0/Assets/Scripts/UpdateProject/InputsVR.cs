@@ -25,7 +25,7 @@ public class InputsVR : MonoBehaviour {
     public InputKeyStruct _revertKey;
     public InputKeyStruct _splitOneKey;
     public InputKeyStruct _revertOneKey;
-
+    public InputKeyStruct _singleView;
     private void Awake() {
         singleton = this;
     }

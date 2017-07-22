@@ -12,6 +12,9 @@ public class ObjectSelection : MonoBehaviour {
     public Camera mainCamera;
     private Splittable _selectedSplittable;
     private bool selection;
+    public bool singleView;
+    public float rotationSpeed;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -20,16 +23,31 @@ public class ObjectSelection : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (Input.GetMouseButtonDown(0)) {
+            if (singleView) return;
             FireRayToScreenPos();
             return;
         }
         if (Input.GetMouseButtonDown(1)) {
             if (selection) {
+                if (singleView) return;
                 deselectSplittableEvent(_selectedSplittable);
                 _selectedSplittable = null;
                 selection = false;
             }
             
+        }
+        if (Input.GetKeyDown(InputsVR.singleton._singleView.key)) {
+            
+            if (selection && !singleView) {
+                singleView = true;
+                enterSingleViewSplittableEvent(_selectedSplittable);
+                return;
+            }
+            if(selection && singleView) {
+                singleView = false;
+                exitSingleViewSplittableEvent(_selectedSplittable);
+                return;
+            }
         }
 	}
     private void FireRayToScreenPos() {

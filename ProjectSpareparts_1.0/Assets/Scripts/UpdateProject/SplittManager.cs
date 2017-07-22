@@ -10,7 +10,7 @@ public class SplittManager : MonoBehaviour {
     private InputsVR inputs;
 
     public List<Splittable> _allSplittablesList = new List<Splittable>();
-
+    public GameObject root;
    
 
     //parameter
