@@ -18,7 +18,8 @@ public class Splittable : MonoBehaviour {
 
     private SplittManager _splittManager;
     private Rigidbody _rig;
-    private ObjectSelection selection;
+    private ObjectSelection _selection;
+    private InteractableItem _thisItem;
     [SerializeField]
     public SplittableState _currentState;
     public int splitIndex;
@@ -39,15 +40,18 @@ public class Splittable : MonoBehaviour {
 	}
 	void Initialisation() {
         _splittManager = SplittManager.singleton;
-        selection = InputsVR.singleton.GetComponent<ObjectSelection>();
+        _selection = InputsVR.singleton.GetComponent<ObjectSelection>();
         _splittManager.AddSplittable(this);
         _rig = GetComponent<Rigidbody>();
+        _thisItem = GetComponent<InteractableItem>();
         gameObject.layer = LayerMask.NameToLayer("Splittable");
     }
 	// Update is called once per frame
 	void FixedUpdate () {
-        if (!selection.singleView) {
-            Move(_currentSet, _splittSpeed);
+        if (!_selection.singleView) {
+            if (!_thisItem.IsInteracting()) {
+                Move(_currentSet, _splittSpeed);
+            }
         }
 	}
 

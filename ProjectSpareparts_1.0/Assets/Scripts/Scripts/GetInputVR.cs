@@ -51,20 +51,32 @@ public class GetInputVR : MonoBehaviour{
     /// </summary>
     /// <param name="whichHand"></param>
     /// <returns></returns>
-    public GameObject GetControllerGameObject(ViveHand whichHand)
+    public GameObject GetControllerGameObject(ViveHand hand)
     {
         int handIndex = 0;
-        if (whichHand == ViveHand.right)
-        {
+        if (hand == ViveHand.right) {
             handIndex = 0;
-        }
-        else handIndex = 1;
+        } else handIndex = 1;
 
 
 
         return trackedObj[handIndex].gameObject;
     }
+    /// <summary>
+    /// return wandcontroller Component of hand
+    /// </summary>
+    /// <param name="hand"></param>
+    /// <returns></returns>
+    public WandController GetWandController(ViveHand hand) {
+        int handIndex = 0;
+        if (hand == ViveHand.right) {
+            handIndex = 0;
+        } else handIndex = 1;
 
+
+
+        return trackedObj[handIndex].gameObject.GetComponent<WandController>();
+    }
     /// <summary>
     /// Gets the input of the Vive Controller. 
     /// </summary>
@@ -75,10 +87,9 @@ public class GetInputVR : MonoBehaviour{
 
         bool toReturn = false;
         int handIndex = 0;
-
         if (hand == ViveHand.right) {
-            handIndex = 1;
-        } else handIndex = 0;
+            handIndex = 0;
+        } else handIndex = 1;
 
         if (SteamVR_Controller.Input((int)trackedObj[handIndex].index) == null) {
             return toReturn;
@@ -133,12 +144,9 @@ public class GetInputVR : MonoBehaviour{
     {
         bool toReturn = false;
         int handIndex = 0;
-
-        if (hand == ViveHand.right)
-        {
+        if (hand == ViveHand.right) {
             handIndex = 0;
-        }
-        else handIndex = 1;
+        } else handIndex = 1;
 
         if (SteamVR_Controller.Input((int)trackedObj[handIndex].index) == null)
         {
@@ -203,12 +211,9 @@ public class GetInputVR : MonoBehaviour{
     {
         bool toReturn = false;
         int handIndex = 0;
-
-        if (hand == ViveHand.right)
-        {
+        if (hand == ViveHand.right) {
             handIndex = 0;
-        }
-        else handIndex = 1;
+        } else handIndex = 1;
 
         if (SteamVR_Controller.Input((int)trackedObj[handIndex].index) == null)
         {
@@ -266,13 +271,12 @@ public class GetInputVR : MonoBehaviour{
 
     public Vector2 GetAxis(ViveHand hand)
     {
-        int handIndex = 0;
         Vector2 directionVector = Vector2.zero;
-        if (hand == ViveHand.right)
-        {
+
+        int handIndex = 0;
+        if (hand == ViveHand.right) {
             handIndex = 0;
-        }
-        else handIndex = 1;
+        } else handIndex = 1;
 
         if (SteamVR_Controller.Input((int)trackedObj[handIndex].index) == null)
         {

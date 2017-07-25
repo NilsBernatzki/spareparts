@@ -27,70 +27,73 @@ public class SplittManager : MonoBehaviour {
         vrInput = GetInputVR.singleton;
         inputs = InputsVR.singleton;
         SortSplittableListWithIndex();
+
+        inputs.SplitOne += () => { SplitOnePart(); };
+        inputs.RevertOne += () => { RevertOnePart(); };
+        inputs.SplitAll += () => { StartCoroutine(SplitAllSplittables()); };
+        inputs.RevertAll += () => { StartCoroutine(RevertAllSplittables()); };
+
     }
     private void Update() {
 
         if (inputs.VRMode) {
             if (!vrInput.vrControllersReady) return;
-            if (!blockInputs) {
-                if (vrInput.GetKeyDown(inputs._split.button, inputs._split.hand)) {
-                    StartCoroutine(SplitAllSplittables());
-                    return;
-                }
-                if (vrInput.GetKeyDown(inputs._revert.button, inputs._revert.hand)) {
-                    StartCoroutine(RevertAllSplittables());
-                    return;
-                }
-            }
+            
         } else {
-            if (!blockInputs) {
-                if (Input.GetKeyDown(inputs._splitKey.key)) {
-                    StartCoroutine(SplitAllSplittables());
-                    currentSplitIndex = _allSplittablesList.Count;
-                    return;
-                }
-                if (Input.GetKeyDown(inputs._revertKey.key)) {
-                    StartCoroutine(RevertAllSplittables());
-                    currentSplitIndex = 0;
-                    return;
-                }
-                if (Input.GetKeyDown(inputs._splitOneKey.key)) {
-                    SplitOnePart(ref currentSplitIndex);
-                    return;
-                }
-                if (Input.GetKeyDown(inputs._revertOneKey.key)) {
-                    RevertOnePart(ref currentSplitIndex);
-                    return;
-                }
+            ReactOnKeyboardInputs();
+        }
+    }
+    private void ReactOnKeyboardInputs() {
+        if (!blockInputs) {
+            if (Input.GetKeyDown(inputs._splitKey.key)) {
+                StartCoroutine(SplitAllSplittables());
+                return;
+            }
+            if (Input.GetKeyDown(inputs._revertKey.key)) {
+                StartCoroutine(RevertAllSplittables());
+                return;
+            }
+            if (Input.GetKeyDown(inputs._splitOneKey.key)) {
+                SplitOnePart();
+                return;
+            }
+            if (Input.GetKeyDown(inputs._revertOneKey.key)) {
+                RevertOnePart();
+                return;
             }
         }
     }
-
     private IEnumerator SplitAllSplittables() {
-        blockInputs = true;
-        foreach(Splittable splittable in _allSplittablesList) {
-            splittable.Split();
-            yield return null;
+        if (!blockInputs) {
+            blockInputs = true;
+            foreach (Splittable splittable in _allSplittablesList) {
+                //splittable.Split();
+                SplitOnePart();
+                yield return null;
+            }
+            blockInputs = false;
         }
-        blockInputs = false;
     }
     private IEnumerator RevertAllSplittables() {
-        blockInputs = true;
-        foreach (Splittable splittable in _allSplittablesList) {
-            splittable.Revert();
-            yield return null;
+        if (!blockInputs) {
+            blockInputs = true;
+            foreach (Splittable splittable in _allSplittablesList) {
+                //splittable.Revert();
+                RevertOnePart();
+                yield return null;
+            }
+            blockInputs = false;
         }
-        blockInputs = false;
     }
-    private void SplitOnePart(ref int index) {
-        if (index == _allSplittablesList.Count) return;
-        _allSplittablesList[index].Split();
-        index++;
+    private void SplitOnePart() {
+        if (currentSplitIndex == _allSplittablesList.Count) return;
+        _allSplittablesList[currentSplitIndex].Split();
+        currentSplitIndex++;
     }
-    private void RevertOnePart(ref int index) {
-        if (index == 0) return;
-        index--;
-        _allSplittablesList[index].Revert();
+    private void RevertOnePart() {
+        if (currentSplitIndex == 0) return;
+        currentSplitIndex--;
+        _allSplittablesList[currentSplitIndex].Revert();
         
     }
     //Other
