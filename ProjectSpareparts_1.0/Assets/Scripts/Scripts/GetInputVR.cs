@@ -28,7 +28,7 @@ public class GetInputVR : MonoBehaviour{
     private Valve.VR.EVRButtonId touch = Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad;
 
     public SteamVR_TrackedObject[] trackedObj;
-
+    public List<WandController> wands = new List<WandController>();
 
     // Use this for initialization
     void Awake()

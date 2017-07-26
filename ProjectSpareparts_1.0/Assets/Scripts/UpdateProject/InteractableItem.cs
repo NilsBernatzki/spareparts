@@ -16,12 +16,15 @@ public class InteractableItem : MonoBehaviour {
     private float angle;
     private Vector3 axis;
 
-	// Use this for initialization
-	void Start () {
+    private Color defaultColor;
+
+    // Use this for initialization
+    void Start () {
         rig = GetComponent<Rigidbody>();
         interactionPoint = new GameObject().transform;
         velocityFactor /= rig.mass;
         rotationFactor /= rig.mass;
+        defaultColor = GetComponent<MeshRenderer>().material.color;
 	}
 	
 	// Update is called once per frame
@@ -56,5 +59,11 @@ public class InteractableItem : MonoBehaviour {
     }
     public bool IsInteracting() {
         return currentlyInteracting;
+    }
+    public void ChangeColorHoverOver(Color hoverOverColor) {
+        GetComponent<MeshRenderer>().material.color = hoverOverColor;
+    }
+    public void ResetColor() {
+        GetComponent<MeshRenderer>().material.color = defaultColor;
     }
 }
