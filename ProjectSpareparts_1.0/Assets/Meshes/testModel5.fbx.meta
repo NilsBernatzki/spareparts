@@ -1,0 +1,154 @@
+fileFormatVersion: 2
+guid: 7cbf59f646025b249ba14e511eef53ce
+timeCreated: 1501163414
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Adapters
+    100002: AdapterSideL
+    100004: AdapterSideR
+    100006: Protectors
+    100008: Showel
+    100010: //RootNode
+    100012: Tooth
+    100014: Adapters.001
+    100016: Adapters.002
+    100018: Protectors.001
+    100020: Protectors.002
+    100022: Protectors.003
+    100024: Tooth.001
+    100026: Tooth.002
+    100028: Tooth.003
+    100030: Tooth.004
+    400000: Adapters
+    400002: AdapterSideL
+    400004: AdapterSideR
+    400006: Protectors
+    400008: Showel
+    400010: //RootNode
+    400012: Tooth
+    400014: Adapters.001
+    400016: Adapters.002
+    400018: Protectors.001
+    400020: Protectors.002
+    400022: Protectors.003
+    400024: Tooth.001
+    400026: Tooth.002
+    400028: Tooth.003
+    400030: Tooth.004
+    2300000: Adapters
+    2300002: AdapterSideL
+    2300004: AdapterSideR
+    2300006: Protectors
+    2300008: Showel
+    2300010: Tooth
+    2300012: Adapters.001
+    2300014: Adapters.002
+    2300016: Protectors.001
+    2300018: Protectors.002
+    2300020: Protectors.003
+    2300022: Tooth.001
+    2300024: Tooth.002
+    2300026: Tooth.003
+    2300028: Tooth.004
+    3300000: Adapters
+    3300002: AdapterSideL
+    3300004: AdapterSideR
+    3300006: Protectors
+    3300008: Showel
+    3300010: Tooth
+    3300012: Adapters.001
+    3300014: Adapters.002
+    3300016: Protectors.001
+    3300018: Protectors.002
+    3300020: Protectors.003
+    3300022: Tooth.001
+    3300024: Tooth.002
+    3300026: Tooth.003
+    3300028: Tooth.004
+    4300000: Tooth
+    4300002: AdapterSideR
+    4300004: Adapters
+    4300006: AdapterSideL
+    4300008: Protectors
+    4300010: Showel
+    4300012: Adapters.002
+    4300014: Adapters.001
+    4300016: Protectors.003
+    4300018: Protectors.002
+    4300020: Protectors.001
+    4300022: Tooth.004
+    4300024: Tooth.003
+    4300026: Tooth.002
+    4300028: Tooth.001
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

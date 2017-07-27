@@ -51,8 +51,10 @@ public class InputsVR : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        UpdateVrInputStructs();
-        CheckForGrabAndRelease();
+        if (VRMode) {
+            UpdateVrInputStructs();
+            CheckForGrabAndRelease();
+        }
 	}
     
     private void CheckForGrabAndRelease() {
